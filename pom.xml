@@ -16,12 +16,24 @@
         </dependency>
 
 
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-common</artifactId>
+            <version>2.2.0</version>
+        </dependency>
 
-    <dependency>
-        <groupId>org.apache.hadoop</groupId>
-        <artifactId>hadoop-common</artifactId>
-        <version>2.2.0</version>
-    </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-client</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+
+        <!-- needed for FileUtil and windows switch-->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
 
     </dependencies>
 
@@ -83,5 +95,5 @@
         </plugins>
     </build>
 
-    
+
 </project>
