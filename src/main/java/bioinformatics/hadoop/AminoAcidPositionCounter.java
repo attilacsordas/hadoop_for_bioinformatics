@@ -40,11 +40,9 @@ import java.text.DecimalFormat;
 
                         //System.out.println((i+1) + "\t" + line.length());
 
-                        double result = (double)(i+1)/(double)(line.length());
-
                         //System.out.println(result);
 
-                        String s = new StringBuilder().append(line.charAt(i)).append('_').append(i+1).append("_").append(roundTwoDecimals(result)).toString();
+                        String s = new StringBuilder().append(line.charAt(i)).append('_').append(i+1).toString();
                         onlyText.set(s) ;
                         context.write(onlyText, one);
                     }
@@ -140,7 +138,7 @@ import java.text.DecimalFormat;
             String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
 
 
-            Job job = new Job(conf, "newposcounter");
+            Job job = new Job(conf, "aminoacidpositioncounter");
             conf = job.getConfiguration(); // NOTE JOB Copies the configuraton
             // This line runs the job on the cluster - omitting it runs the job locallty
             //conf.set("fs.default.name", "hdfs://" + HADOOP_MACHINE + ":" + HADOOP_PORT);
