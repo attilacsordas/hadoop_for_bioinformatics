@@ -48,11 +48,6 @@ public class AminoAcidCounter extends Configured implements Tool {
             }
         }
 
-        private double roundTwoDecimals(double d) {
-            DecimalFormat twoDForm = new DecimalFormat("#.##");
-            return Double.valueOf(twoDForm.format(d));
-        }
-
     }
 
     public static class MyReduce extends Reducer<Text, IntWritable, Text, IntWritable> {
@@ -70,32 +65,6 @@ public class AminoAcidCounter extends Configured implements Tool {
             System.out.println(key + " " + f.toString());
         }
     }
-
-/*
-	@SuppressWarnings("deprecation")
-	public static void main(String[] args) throws Exception {
-
-		JobConf conf1 = new JobConf(NewPosCounter.class);
-		conf1.setJobName("newposcounter");
-
-		conf1.setOutputKeyClass(Text.class);
-		conf1.setOutputValueClass(IntWritable.class);
-
-		conf1.setMapperClass(MyMap.class);
-		// conf.setCombinerClass(Reduce.class);
-		conf1.setReducerClass(MyReduce.class);
-
-		conf1.setInputFormat(TextInputFormat.class);
-		conf1.setOutputFormat(TextOutputFormat.class);
-
-		conf1.setNumReduceTasks(new Integer(10));
-
-		FileInputFormat.setInputPaths(conf1, new Path(args[0]));
-		FileOutputFormat.setOutputPath(conf1, new Path(args[1]));
-
-		JobClient.runJob(conf1);
-	}
-*/
 
     /**
      * kill a directory and all contents
@@ -139,7 +108,7 @@ public class AminoAcidCounter extends Configured implements Tool {
 
         Job job = new Job(conf, "aminoacidcounter");
         conf = job.getConfiguration(); // NOTE JOB Copies the configuraton
-        // This line runs the job on the cluster - omitting it runs the job locallty
+        // This line runs the job on the cluster - omitting it runs the job locally
         //conf.set("fs.default.name", "hdfs://" + HADOOP_MACHINE + ":" + HADOOP_PORT);
 
         job.setJarByClass(AminoAcidCounter.class);
@@ -159,11 +128,6 @@ public class AminoAcidCounter extends Configured implements Tool {
         job.setOutputFormatClass(TextOutputFormat.class);
 */
         job.setNumReduceTasks(new Integer(10));
-
-/*
-        job.setInputFormatClass(LineTextInputFormat.class);
-        job.setOutputFormatClass(org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat.class);
-*/
 
 
         if (otherArgs.length > 1) {
@@ -206,17 +170,13 @@ public class AminoAcidCounter extends Configured implements Tool {
         return runJob(conf, args);
     }
 
-
-    public static final String HADOOP_MACHINE = "hadoop-master-03.ebi.ac.uk";
-    public static final int HADOOP_PORT = 54310;
-
     private static void usage() {
         System.out.println("usage inputfile1 <inputfile2> <inputfile3> ... outputdirectory");
     }
 
     /**
      * Sample of use
-     * args might be /user/slewis/hadoop/test/books/pg135.txt /user/slewis/hadoop/test/output1
+     * args might be /input /output
      *
      * @param args
      * @throws Exception
