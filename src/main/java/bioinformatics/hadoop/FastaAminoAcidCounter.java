@@ -71,31 +71,6 @@ public class FastaAminoAcidCounter extends Configured implements Tool {
             }
         }
 
-/*
-	@SuppressWarnings("deprecation")
-	public static void main(String[] args) throws Exception {
-
-		JobConf conf1 = new JobConf(NewPosCounter.class);
-		conf1.setJobName("newposcounter");
-
-		conf1.setOutputKeyClass(Text.class);
-		conf1.setOutputValueClass(IntWritable.class);
-
-		conf1.setMapperClass(MyMap.class);
-		// conf.setCombinerClass(Reduce.class);
-		conf1.setReducerClass(MyReduce.class);
-
-		conf1.setInputFormat(TextInputFormat.class);
-		conf1.setOutputFormat(TextOutputFormat.class);
-
-		conf1.setNumReduceTasks(new Integer(10));
-
-		FileInputFormat.setInputPaths(conf1, new Path(args[0]));
-		FileOutputFormat.setOutputPath(conf1, new Path(args[1]));
-
-		JobClient.runJob(conf1);
-	}
-*/
 
         /**
          * kill a directory and all contents
@@ -160,11 +135,6 @@ public class FastaAminoAcidCounter extends Configured implements Tool {
         //job.setOutputFormatClass(TextOutputFormat.class);
 //            job.setNumReduceTasks(new Integer(10));
 
-/*
-        job.setInputFormatClass(LineTextInputFormat.class);
-        job.setOutputFormatClass(org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat.class);
-*/
-
 
             if (otherArgs.length > 1) {
                 org.apache.hadoop.mapreduce.lib.input.FileInputFormat.addInputPath(job, new Path(otherArgs[0]));
@@ -206,17 +176,13 @@ public class FastaAminoAcidCounter extends Configured implements Tool {
             return runJob(conf, args);
         }
 
-
-        public static final String HADOOP_MACHINE = "hadoop-master-03.ebi.ac.uk";
-        public static final int HADOOP_PORT = 54310;
-
         private static void usage() {
             System.out.println("usage inputfile1 <inputfile2> <inputfile3> ... outputdirectory");
         }
 
         /**
          * Sample of use
-         * args might be /user/slewis/hadoop/test/books/pg135.txt /user/slewis/hadoop/test/output1
+         * args might be /input /output
          *
          * @param args
          * @throws Exception
