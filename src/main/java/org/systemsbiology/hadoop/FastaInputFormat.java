@@ -82,7 +82,9 @@ public class FastaInputFormat extends FileInputFormat<Text, Text> {
             return new FastaFileReader();
         else
             System.err.println("File is empty");
-            return NullRecordReader.INSTANCE; // do not read
+            //return NullRecordReader.INSTANCE; // do not read
+        // this instead of creating a NullRecordReader
+        return null;
     }
 
     @Override
