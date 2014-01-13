@@ -22,22 +22,25 @@ import java.text.DecimalFormat;
 
 public class AminoAcidCounter extends Configured implements Tool {
 
+    // mapper subclass
 
     @SuppressWarnings("deprecation")
     public static class MyMap extends Mapper<LongWritable, Text,  Text, IntWritable> {
 
+        // avoiding object creation and overhead in the map method, reusing these objects
         private final  IntWritable one = new IntWritable(1);
         private final   Text onlyText = new Text();
 
+        // map method is called for every key-value input pairs, Context is used to write intermediate data and job configuration, setup, cleanup
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
-
+            // retrieving the String on the 'value' Text object
             String line = value.toString();
             //StringTokenizer tokenizer = new StringTokenizer(line);
 
             if (line.length() > 0) {
 
-
+                // looping through characters (amino acids) in the string (the peptide)
                 for (int i = 0; i < line.length(); i++) {
 
                     String n = new StringBuilder().append(line.charAt(i)).toString();
@@ -50,8 +53,12 @@ public class AminoAcidCounter extends Configured implements Tool {
 
     }
 
+    // reducer subclass
+
     public static class MyReduce extends Reducer<Text, IntWritable, Text, IntWritable> {
 
+
+        // iterator over values belonging to 1 key, called once for each key
         public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
             int sum = 0;
 
@@ -65,6 +72,8 @@ public class AminoAcidCounter extends Configured implements Tool {
             System.out.println(key + " " + f.toString());
         }
     }
+
+    // utility for rapid development: do not need to manually delete output directory every time the code runs
 
     /**
      * kill a directory and all contents
@@ -96,6 +105,7 @@ public class AminoAcidCounter extends Configured implements Tool {
 
     }
 
+    // driver part: configures the job and runs it in local and/or submits it to the cluster
 
     public int runJob(Configuration conf, String[] args) throws Exception {
 
@@ -105,7 +115,7 @@ public class AminoAcidCounter extends Configured implements Tool {
         }
         String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
 
-
+        // setting configuration options for the job: mapper and reducer classes, input and output directories, data formats to be used
         Job job = new Job(conf, "aminoacidcounter");
         conf = job.getConfiguration(); // NOTE JOB Copies the configuraton
         // This line runs the job on the cluster - omitting it runs the job locally
@@ -115,19 +125,24 @@ public class AminoAcidCounter extends Configured implements Tool {
 
         job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(IntWritable.class);
+
+
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
 /*        job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);*/
 
+
         job.setMapperClass(MyMap.class);
         // conf.setCombinerClass(Reduce.class);
         job.setReducerClass(MyReduce.class);
 
+        // TextInputFormat is the default, no need to explicitly specify
         /*job.setInputFormatClass(TextInputFormat.class);
-        job.setOutputFormatClass(TextOutputFormat.class);
-*/
-        job.setNumReduceTasks(new Integer(10));
+        job.setOutputFormatClass(TextOutputFormat.class); */
+
+        // set reducers to scale up to the nodes on the cluster
+        //job.setNumReduceTasks(new Integer(10));
 
 
         if (otherArgs.length > 1) {
@@ -162,7 +177,7 @@ public class AminoAcidCounter extends Configured implements Tool {
      * @return exit code.
      * @throws Exception
      */
-    @Override
+   @Override
     public int run(final String[] args) throws Exception {
         Configuration conf = getConf();
         if (conf == null)
@@ -171,7 +186,7 @@ public class AminoAcidCounter extends Configured implements Tool {
     }
 
     private static void usage() {
-        System.out.println("usage inputfile1 <inputfile2> <inputfile3> ... outputdirectory");
+        System.out.println("usage: please specify inputdirectory ... outputdirectory as arguments");
     }
 
     /**
