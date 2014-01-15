@@ -163,7 +163,7 @@ public class AminoAcidCounter extends Configured implements Tool {
         expunge(outputDir, fileSystem);    // make sure this does not exist
         org.apache.hadoop.mapreduce.lib.output.FileOutputFormat.setOutputPath(job, outputDir);
 
-
+        //  Blocks"(waits"for"the"job"to"complete"before"continuing)", other method is job.submit()  Does"not"block"(driver"code"continues"as"the"job"is"running)
         boolean ans = job.waitForCompletion(true);
         int ret = ans ? 0 : 1;
         return ret;
