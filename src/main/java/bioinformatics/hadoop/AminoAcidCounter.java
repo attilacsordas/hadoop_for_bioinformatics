@@ -177,7 +177,7 @@ public class AminoAcidCounter extends Configured implements Tool {
      * @return exit code.
      * @throws Exception
      */
-   @Override
+   //@Override
     public int run(final String[] args) throws Exception {
         Configuration conf = getConf();
         if (conf == null)

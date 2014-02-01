@@ -12,6 +12,7 @@
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-core</artifactId>
+            <!--<version>0.20.2</version> -->
             <version>1.0.4</version>
         </dependency>
 
@@ -46,7 +47,7 @@
         </resources>
 
         <plugins>
-            <plugin>
+<!--            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
@@ -65,7 +66,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
             <!-- jar plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -78,7 +79,7 @@
                     </excludes>
                     <archive>
                         <manifest>
-                            <mainClass>bioinformatics.hadoop.PositionCounter</mainClass>
+                            <mainClass>bioinformatics.hadoop.AminoAcidCounter</mainClass>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib</classpathPrefix>
                         </manifest>
