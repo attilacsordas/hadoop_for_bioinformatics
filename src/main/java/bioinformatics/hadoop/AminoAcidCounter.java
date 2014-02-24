@@ -31,7 +31,7 @@ public class AminoAcidCounter extends Configured implements Tool {
         private final  IntWritable one = new IntWritable(1);
         private final   Text onlyText = new Text();
 
-        // map method is called for every key-value input pairs, Context is used to write intermediate data and job configuration, setup, cleanup
+        // map method is called for every key-value input pairs, Context is used to write intermediate data and job configuration, setup, cleanup, counters
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
             // retrieving the String on the 'value' Text object
