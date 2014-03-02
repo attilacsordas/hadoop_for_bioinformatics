@@ -37,15 +37,15 @@ public class AminoAcidCounterwithMalformedCounter extends Configured implements 
             String line = value.toString();
             //StringTokenizer tokenizer = new StringTokenizer(line);
 
-            if (line.length() > 0 && StringUtils.startsWithDigit(line)) {
+            if (line.length() > 0 && StringUtils.containsDigit(line)) {
 
-                context.getCounter(MapReduceCounters.PeptideChecker.STARTS_WITH_DIGIT).increment(1);
+                context.getCounter(MapReduceCounters.PeptideChecker.CONTAINS_DIGIT).increment(1);
 
             }
 
-            else if (StringUtils.startsWithLetter(line)) {
+            else if (StringUtils.containsUppercaseLettersOnly(line)) {
 
-                context.getCounter(MapReduceCounters.PeptideChecker.STARTS_WITH_LETTER).increment(1);
+                context.getCounter(MapReduceCounters.PeptideChecker.CONTAINS_UPPERCASE_LETTERS_ONLY).increment(1);
 
                 // looping through characters (amino acids) in the string (the peptide)
                 for (int i = 0; i < line.length(); i++) {
